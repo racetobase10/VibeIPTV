@@ -78,4 +78,4 @@ content accessed through this app.
 
 ## License
 
-_TODO: choose a license_
+MIT — see [LICENSE](LICENSE).
