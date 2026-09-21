@@ -2,6 +2,7 @@ package com.vibeiptv.app.ui.live
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ import com.vibeiptv.app.util.PlayerContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.vibeiptv.app.util.applySystemBarPadding
 
 class LiveTvActivity : AppCompatActivity() {
 
@@ -54,6 +56,7 @@ class LiveTvActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLiveTvBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        findViewById<View>(android.R.id.content).applySystemBarPadding()
 
         repo = ContentRepository(this)
         epg = EpgRepository(this)

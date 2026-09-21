@@ -1,6 +1,7 @@
 package com.vibeiptv.app.ui.settings
 
 import android.app.AlertDialog
+import android.view.View
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
@@ -18,6 +19,7 @@ import com.vibeiptv.app.util.Format
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.vibeiptv.app.util.applySystemBarPadding
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -29,6 +31,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        findViewById<View>(android.R.id.content).applySystemBarPadding()
         portalStore = PortalStore(this)
         repo = ContentRepository(this)
 

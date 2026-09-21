@@ -3,6 +3,7 @@ package com.vibeiptv.app.ui.portal
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import com.vibeiptv.app.data.repo.PortalStore
 import com.vibeiptv.app.databinding.ActivityPortalManagerBinding
 import com.vibeiptv.app.databinding.ItemPortalBinding
 import com.vibeiptv.app.ui.home.HomeActivity
+import com.vibeiptv.app.util.applySystemBarPadding
 
 class PortalManagerActivity : AppCompatActivity() {
 
@@ -25,6 +27,7 @@ class PortalManagerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPortalManagerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        findViewById<View>(android.R.id.content).applySystemBarPadding()
         store = PortalStore(this)
 
         adapter = PortalAdapter(

@@ -36,6 +36,15 @@ or credentials** — on first launch you add your own.
 - **Settings** — EPG refresh controls, player preferences, portal management
 - **Privacy** — portal credentials stored encrypted on-device (EncryptedSharedPreferences)
 
+## What's new
+
+### v1.1 (2026-09-21)
+- **Edge-to-edge safe areas** — all screens now respect the status bar,
+  navigation bar, and display cutouts, so no layout bleeds under the system
+  bars on phones, tablets, or TVs
+- **Compact player controls** — OSD buttons (play, CH+/CH−, etc.) sized to
+  their content instead of oversized touch targets
+
 ## Screenshots
 
 _TODO: add screenshots_

@@ -19,6 +19,7 @@ import com.vibeiptv.app.databinding.ItemRecordingRowBinding
 import com.vibeiptv.app.util.Format
 import com.vibeiptv.app.util.PlayerContract
 import java.io.File
+import com.vibeiptv.app.util.applySystemBarPadding
 
 class RecordingsActivity : AppCompatActivity() {
 
@@ -32,6 +33,7 @@ class RecordingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRecordingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        findViewById<View>(android.R.id.content).applySystemBarPadding()
 
         adapter = RecordingAdapter(
             onClick = { f -> PlayerContract.playFile(this, Uri.fromFile(f), f.nameWithoutExtension) },

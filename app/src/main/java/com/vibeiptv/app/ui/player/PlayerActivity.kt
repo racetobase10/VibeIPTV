@@ -51,6 +51,7 @@ import com.vibeiptv.app.util.PlayerContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.vibeiptv.app.util.applySystemBarPadding
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -151,6 +152,9 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Video stays full-bleed; only the overlays clear the system bars.
+        binding.topBanner.applySystemBarPadding(left = false, right = false, bottom = false)
+        binding.osdScroll.applySystemBarPadding(left = false, top = false, right = false)
 
         if (!parseIntent()) {
             Toast.makeText(this, "Nothing to play", Toast.LENGTH_SHORT).show()

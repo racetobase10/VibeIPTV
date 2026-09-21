@@ -19,6 +19,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.Request
 import okio.Buffer
 import java.util.UUID
+import com.vibeiptv.app.util.applySystemBarPadding
 
 class PortalSetupActivity : AppCompatActivity() {
 
@@ -45,6 +46,7 @@ class PortalSetupActivity : AppCompatActivity() {
 
         binding = ActivityPortalSetupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        findViewById<View>(android.R.id.content).applySystemBarPadding()
 
         if (editId != null) {
             binding.tvFormTitle.text = "Edit Portal"

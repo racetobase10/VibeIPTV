@@ -21,6 +21,7 @@ import com.vibeiptv.app.util.PlayerContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.vibeiptv.app.util.applySystemBarPadding
 
 class VodDetailActivity : AppCompatActivity() {
 
@@ -34,6 +35,7 @@ class VodDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityVodDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        findViewById<View>(android.R.id.content).applySystemBarPadding()
         repo = ContentRepository(this)
 
         val json = intent.getStringExtra(PlayerContract.EXTRA_VOD_JSON)

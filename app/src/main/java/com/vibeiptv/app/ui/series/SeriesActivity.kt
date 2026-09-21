@@ -28,6 +28,7 @@ import com.vibeiptv.app.util.PlayerContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.vibeiptv.app.util.applySystemBarPadding
 
 class SeriesActivity : AppCompatActivity() {
 
@@ -47,6 +48,7 @@ class SeriesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySeriesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        findViewById<View>(android.R.id.content).applySystemBarPadding()
         repo = ContentRepository(this)
         portalStore = PortalStore(this)
 

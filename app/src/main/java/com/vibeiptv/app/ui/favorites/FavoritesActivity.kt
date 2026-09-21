@@ -28,6 +28,7 @@ import com.vibeiptv.app.util.PlayerContract
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.vibeiptv.app.util.applySystemBarPadding
 
 class FavoritesActivity : AppCompatActivity() {
 
@@ -71,6 +72,7 @@ class FavoritesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFavoritesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        findViewById<View>(android.R.id.content).applySystemBarPadding()
         repo = ContentRepository(this)
         favDao = AppDatabase.get(this).favoriteDao()
 

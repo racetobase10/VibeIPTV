@@ -44,6 +44,7 @@
     </LinearLayout>
 
     <HorizontalScrollView
+        android:id="@+id/osdScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -68,7 +69,8 @@
                 android:background="@drawable/btn_accent_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="⏸"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp" />
@@ -81,7 +83,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="-10s"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp" />
@@ -94,7 +97,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="+10s"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp" />
@@ -107,7 +111,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="CH −"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp" />
@@ -120,7 +125,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="CH +"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp" />
@@ -133,7 +139,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="⏺"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp" />
@@ -146,7 +153,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="16:9"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp" />
@@ -159,7 +167,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="AUD"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp" />
@@ -172,7 +181,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="CC"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp" />
@@ -185,7 +195,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="⏾"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp" />
@@ -198,7 +209,8 @@
                 android:background="@drawable/item_focusable"
                 android:focusable="true"
                 android:minWidth="0dp"
-                android:padding="12dp"
+                android:minHeight="0dp"
+                android:padding="8dp"
                 android:text="ⓘ"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp" />
