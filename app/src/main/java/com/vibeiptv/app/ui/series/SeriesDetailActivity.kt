@@ -17,6 +17,7 @@ import com.vibeiptv.app.data.model.FavType
 import com.vibeiptv.app.data.model.SeriesDetail
 import com.vibeiptv.app.data.model.SeriesItem
 import com.vibeiptv.app.data.repo.ContentRepository
+import com.vibeiptv.app.data.repo.PortalStore
 import com.vibeiptv.app.data.repo.RatingRepository
 import com.vibeiptv.app.databinding.ActivitySeriesDetailBinding
 import com.vibeiptv.app.databinding.ItemCategoryRowBinding
@@ -68,7 +69,8 @@ class SeriesDetailActivity : AppCompatActivity() {
         ).joinToString(" • ")
         binding.txtMeta.text = meta
         binding.txtPlot.text = series.plot ?: "No plot available."
-        loadExternalRating()
+        // External rating only when the provider has none and a key is configured.
+        if (series.rating <= 0) loadExternalRating()
         binding.txtCast.text = series.cast ?: ""
         if (!series.cover.isNullOrBlank()) {
             binding.imgCover.load(series.cover) {
@@ -90,8 +92,13 @@ class SeriesDetailActivity : AppCompatActivity() {
         load()
     }
 
-    /** External rating (TMDB/OMDb) — shown with source label when an API key is set. */
+    /**
+     * External rating (TMDB, then IMDb via OMDb) — only used when the provider
+     * supplied no rating. Shown with an honest source label.
+     */
     private fun loadExternalRating() {
+        val store = PortalStore(this)
+        if (store.getTmdbApiKey().isNullOrBlank() && store.getOmdbApiKey().isNullOrBlank()) return
         lifecycleScope.launch(Dispatchers.IO) {
             val r = try {
                 RatingRepository(this@SeriesDetailActivity)
@@ -99,7 +106,7 @@ class SeriesDetailActivity : AppCompatActivity() {
             } catch (_: Exception) { null }
             withContext(Dispatchers.Main) {
                 if (r != null) {
-                    binding.txtExtRating.text = "★ %.1f/10 (%s)".format(r.value, r.source)
+                    binding.txtExtRating.text = "${r.source} ${"%.1f".format(r.value)}"
                     binding.txtExtRating.visibility = View.VISIBLE
                 }
             }

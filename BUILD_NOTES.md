@@ -72,12 +72,15 @@ Key project files:
   channel up/down, PiP hook, recording (direct streams; HLS shows
   "Recording not supported for HLS streams.")
 - **External ratings (new):** TMDB / OMDb API keys in Settings → Ratings
-  (encrypted storage); detail screens show `★ x.x/10 (TMDB|OMDb)` with a
-  30-day Room cache (`rating_cache` table, DB v2).
-- **Subtitle file loading (new):** player Subtitles dialog → "Load from file…"
-  opens the system picker for `.srt` / `.vtt` / `.ass` / `.ssa`; the file is
-  copied to app cache, added to the player, and auto-selected without
-  losing playback position.
+  (encrypted storage). When the provider supplies no rating and a key is set,
+  detail screens look up by title+year — TMDB first, IMDb (via OMDb) as fallback —
+  and show e.g. `TMDB 7.5` / `IMDb 8.1`. Results and misses cached 30 days in
+  Room (`rating_cache`, keyed title+year+type+source; DB v2).
+- **Subtitle file loading (new):** player Subtitles dialog → "Load from device…"
+  opens the system picker (ACTION_OPEN_DOCUMENT, persistable URI permission)
+  for `.srt` / `.vtt` / `.ass` / `.ssa`; the content URI is added to the player
+  as a subtitle track and auto-selected without losing position.
+  Server-provided subtitles are untouched.
 
 ## Honest caveats
 

@@ -482,7 +482,7 @@ class PlayerActivity : AppCompatActivity() {
                 items.add(TrackSel(label, g.mediaTrackGroup, i))
             }
         }
-        val labels = mutableListOf("Load from file…", "Off")
+        val labels = mutableListOf("Load from device…", "Off")
         items.forEach { labels.add(it.label) }
         AlertDialog.Builder(this)
             .setTitle("Subtitles")
@@ -524,6 +524,11 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Loads a user-picked subtitle file (.srt/.vtt/.ass/.ssa) via the system
+     * picker. The content URI is used directly (with a persistable read grant);
+     * server-provided subtitles are left untouched.
+     */
     private fun loadSubtitleFile(uri: Uri) {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
@@ -545,17 +550,8 @@ class PlayerActivity : AppCompatActivity() {
                     toast("Unsupported subtitle format" + if (ext.isNotEmpty()) " (.$ext)" else "")
                     return@launch
                 }
-                val destDir = java.io.File(cacheDir, "subs").apply { mkdirs() }
-                val out = java.io.File(destDir, "sub_${System.currentTimeMillis()}.$ext")
-                contentResolver.openInputStream(uri)?.use { ins ->
-                    out.outputStream().use { outs -> ins.copyTo(outs) }
-                }
-                if (!out.exists() || out.length() == 0L) {
-                    toast("Could not read subtitle file")
-                    return@launch
-                }
                 val label = name.substringBeforeLast('.').ifBlank { "External" }
-                val config = MediaItem.SubtitleConfiguration.Builder(Uri.fromFile(out))
+                val config = MediaItem.SubtitleConfiguration.Builder(uri)
                     .setMimeType(mime)
                     .setLabel(label)
                     .setLanguage("und")

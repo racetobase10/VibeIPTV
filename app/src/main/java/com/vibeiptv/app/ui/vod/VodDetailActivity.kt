@@ -12,6 +12,7 @@ import com.vibeiptv.app.data.db.FavoriteEntity
 import com.vibeiptv.app.data.model.FavType
 import com.vibeiptv.app.data.model.VodItem
 import com.vibeiptv.app.data.repo.ContentRepository
+import com.vibeiptv.app.data.repo.PortalStore
 import com.vibeiptv.app.data.repo.RatingRepository
 import com.vibeiptv.app.databinding.ActivityVodDetailBinding
 import com.vibeiptv.app.util.Format
@@ -51,7 +52,8 @@ class VodDetailActivity : AppCompatActivity() {
         ).joinToString(" • ")
         binding.txtMeta.text = meta
         binding.txtPlot.text = vod.plot ?: "No plot available."
-        loadExternalRating()
+        // External rating only when the provider has none and a key is configured.
+        if (vod.rating <= 0) loadExternalRating()
         binding.txtDirector.text = vod.director ?: "—"
         binding.txtCast.text = vod.cast ?: "—"
         if (!vod.backdrop.isNullOrBlank()) {
@@ -77,8 +79,13 @@ class VodDetailActivity : AppCompatActivity() {
         loadResumeAndFavorite()
     }
 
-    /** External rating (TMDB/OMDb) — shown with source label when an API key is set. */
+    /**
+     * External rating (TMDB, then IMDb via OMDb) — only used when the provider
+     * supplied no rating. Shown with an honest source label.
+     */
     private fun loadExternalRating() {
+        val store = PortalStore(this)
+        if (store.getTmdbApiKey().isNullOrBlank() && store.getOmdbApiKey().isNullOrBlank()) return
         lifecycleScope.launch(Dispatchers.IO) {
             val r = try {
                 RatingRepository(this@VodDetailActivity)
@@ -86,7 +93,7 @@ class VodDetailActivity : AppCompatActivity() {
             } catch (_: Exception) { null }
             withContext(Dispatchers.Main) {
                 if (r != null) {
-                    binding.txtExtRating.text = "★ %.1f/10 (%s)".format(r.value, r.source)
+                    binding.txtExtRating.text = "${r.source} ${"%.1f".format(r.value)}"
                     binding.txtExtRating.visibility = View.VISIBLE
                 }
             }

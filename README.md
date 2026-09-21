@@ -21,11 +21,17 @@ or credentials** — on first launch you add your own.
   with now/next info while watching
 - **Movies & Series** — details screens with plot, cast, ratings, artwork;
   sorting, subtitles, resume playback, watched state
+- **External ratings (optional)** — add your own TMDB and/or OMDb API keys in
+  Settings → Ratings (stored encrypted on-device). When a provider supplies no
+  rating, detail screens look it up automatically and show the source
+  ("TMDB 7.5" / "IMDb 8.1"); results are cached for 30 days
 - **Unified favorites** across Live TV, Movies, and Series
 - **Recording** — direct recording of non-HLS streams, with playback and
   deletion management
 - **Player** — ExoPlayer (Media3): audio/subtitle track selection, aspect
-  ratio, sleep timer, picture-in-picture
+  ratio, sleep timer, picture-in-picture; load your own subtitle file
+  (.srt/.vtt/.ass) from device storage via "Load from device…" in the
+  subtitle picker
 - **Parental controls** — PIN lock with per-category locks
 - **Settings** — EPG refresh controls, player preferences, portal management
 - **Privacy** — portal credentials stored encrypted on-device (EncryptedSharedPreferences)
