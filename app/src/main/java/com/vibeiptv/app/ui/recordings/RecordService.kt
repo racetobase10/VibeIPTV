@@ -54,7 +54,7 @@ class RecordService : Service() {
         val filename = sanitize(rawName) + ".ts"
 
         createChannel()
-        val ongoing = baseNotification("Recording", filename)
+        val ongoing = baseNotification("Recording", filename).build()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(NOTIF_ID, ongoing, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
         } else {

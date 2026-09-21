@@ -92,7 +92,7 @@ class LiveTvActivity : AppCompatActivity() {
         super.onResume()
         // Favorites may have changed; refresh star markers.
         lifecycleScope.launch(Dispatchers.IO) {
-            favIds = db.favoriteDao().idsByType(FavType.LIVE)
+            favIds = db.favoriteDao().idsByType(FavType.LIVE).toSet()
             withContext(Dispatchers.Main) { chAdapter.notifyDataSetChanged() }
         }
     }
@@ -110,7 +110,7 @@ class LiveTvActivity : AppCompatActivity() {
                     val isLocked = c.id in locked
                     rows.add(CatRow(c.id, (if (isLocked) "🔒 " else "") + "${c.name} (${c.count})", isLocked))
                 }
-                favIds = db.favoriteDao().idsByType(FavType.LIVE)
+                favIds = db.favoriteDao().idsByType(FavType.LIVE).toSet()
                 withContext(Dispatchers.Main) {
                     cats = rows
                     catAdapter.submit(rows, selectedCat)
@@ -173,7 +173,7 @@ class LiveTvActivity : AppCompatActivity() {
                     )
                 )
             }
-            favIds = db.favoriteDao().idsByType(FavType.LIVE)
+            favIds = db.favoriteDao().idsByType(FavType.LIVE).toSet()
             withContext(Dispatchers.Main) {
                 Toast.makeText(
                     this@LiveTvActivity,

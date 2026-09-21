@@ -115,12 +115,15 @@ class EpgRepository(private val ctx: Context) {
         from: Long,
         to: Long
     ): Map<String, List<EpgProgramme>> = withContext(Dispatchers.IO) {
-        channels.associate { ch ->
-            val list = epgKeysFor(ch).asSequence()
-                .map { k -> db.epgDao().window(k, from, to).map { it.toModel() } }
-                .firstOrNull { it.isNotEmpty() }
-                ?: emptyList()
-            ch.id to list
+        val out = LinkedHashMap<String, List<EpgProgramme>>()
+        for (ch in channels) {
+            var list: List<EpgProgramme> = emptyList()
+            for (k in epgKeysFor(ch)) {
+                val progs = db.epgDao().window(k, from, to).map { it.toModel() }
+                if (progs.isNotEmpty()) { list = progs; break }
+            }
+            out[ch.id] = list
         }
+        out
     }
 }

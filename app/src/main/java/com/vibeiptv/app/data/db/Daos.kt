@@ -17,7 +17,7 @@ interface FavoriteDao {
     suspend fun byType(t: String): List<FavoriteEntity>
 
     @Query("SELECT refId FROM favorites WHERE type=:t")
-    suspend fun idsByType(t: String): Set<String>
+    suspend fun idsByType(t: String): List<String>
 }
 
 @Dao

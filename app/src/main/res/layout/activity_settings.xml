@@ -106,6 +106,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:text="RATINGS"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnTmdbKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="TMDB API key"
+            android:focusable="true"
+            android:background="@drawable/item_focusable"
+            android:textColor="@color/text_primary" />
+
+        <Button
+            android:id="@+id/btnOmdbKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="OMDb API key"
+            android:focusable="true"
+            android:background="@drawable/item_focusable"
+            android:textColor="@color/text_primary" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="PARENTAL CONTROL"
             android:textColor="@color/text_secondary"
             android:textSize="13sp"

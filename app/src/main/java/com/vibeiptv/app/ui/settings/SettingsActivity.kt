@@ -42,11 +42,50 @@ class SettingsActivity : AppCompatActivity() {
         binding.btnSetPin.setOnClickListener { showSetPin() }
         binding.btnRemovePin.setOnClickListener { confirmRemovePin() }
         binding.btnLockedCats.setOnClickListener { showLockedCategories() }
+        binding.btnTmdbKey.setOnClickListener { showApiKeyDialog("TMDB") }
+        binding.btnOmdbKey.setOnClickListener { showApiKeyDialog("OMDb") }
 
         refreshPortalInfo()
         refreshDecoderButton()
         refreshBufferButton()
         refreshEpgUpdated()
+        refreshApiKeyButtons()
+    }
+
+    private fun refreshApiKeyButtons() {
+        val tmdbSet = !portalStore.getTmdbApiKey().isNullOrBlank()
+        val omdbSet = !portalStore.getOmdbApiKey().isNullOrBlank()
+        binding.btnTmdbKey.text = if (tmdbSet) "TMDB API key: Set ✓ (tap to change/remove)"
+        else "TMDB API key: Not set"
+        binding.btnOmdbKey.text = if (omdbSet) "OMDb API key: Set ✓ (tap to change/remove)"
+        else "OMDb API key: Not set"
+    }
+
+    private fun showApiKeyDialog(which: String) {
+        val input = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            setPadding(48, 32, 48, 32)
+            hint = "Paste $which API key"
+        }
+        AlertDialog.Builder(this)
+            .setTitle("$which API key")
+            .setMessage("Used to look up ratings on detail screens. Stored encrypted on this device only.")
+            .setView(input)
+            .setPositiveButton("Save") { _, _ ->
+                val v = input.text.toString().trim()
+                if (which == "TMDB") portalStore.setTmdbApiKey(v.ifBlank { null })
+                else portalStore.setOmdbApiKey(v.ifBlank { null })
+                refreshApiKeyButtons()
+                Toast.makeText(this, "$which API key updated", Toast.LENGTH_SHORT).show()
+            }
+            .setNeutralButton("Remove") { _, _ ->
+                if (which == "TMDB") portalStore.setTmdbApiKey(null)
+                else portalStore.setOmdbApiKey(null)
+                refreshApiKeyButtons()
+                Toast.makeText(this, "$which API key removed", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     override fun onResume() {

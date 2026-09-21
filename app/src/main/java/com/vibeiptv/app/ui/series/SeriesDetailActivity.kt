@@ -17,6 +17,7 @@ import com.vibeiptv.app.data.model.FavType
 import com.vibeiptv.app.data.model.SeriesDetail
 import com.vibeiptv.app.data.model.SeriesItem
 import com.vibeiptv.app.data.repo.ContentRepository
+import com.vibeiptv.app.data.repo.RatingRepository
 import com.vibeiptv.app.databinding.ActivitySeriesDetailBinding
 import com.vibeiptv.app.databinding.ItemCategoryRowBinding
 import com.vibeiptv.app.databinding.ItemEpisodeBinding
@@ -67,6 +68,7 @@ class SeriesDetailActivity : AppCompatActivity() {
         ).joinToString(" • ")
         binding.txtMeta.text = meta
         binding.txtPlot.text = series.plot ?: "No plot available."
+        loadExternalRating()
         binding.txtCast.text = series.cast ?: ""
         if (!series.cover.isNullOrBlank()) {
             binding.imgCover.load(series.cover) {
@@ -86,6 +88,22 @@ class SeriesDetailActivity : AppCompatActivity() {
 
         binding.btnFav.setOnClickListener { toggleFavorite() }
         load()
+    }
+
+    /** External rating (TMDB/OMDb) — shown with source label when an API key is set. */
+    private fun loadExternalRating() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val r = try {
+                RatingRepository(this@SeriesDetailActivity)
+                    .ratingFor(series.name, series.releaseDate, isSeries = true)
+            } catch (_: Exception) { null }
+            withContext(Dispatchers.Main) {
+                if (r != null) {
+                    binding.txtExtRating.text = "★ %.1f/10 (%s)".format(r.value, r.source)
+                    binding.txtExtRating.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     private fun load() {

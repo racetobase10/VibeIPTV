@@ -6,10 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.OpenableColumns
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -21,6 +23,7 @@ import androidx.media3.common.MimeTypes
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.TrackGroup
+import androidx.media3.common.Tracks
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.DefaultRenderersFactory
@@ -28,7 +31,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
-import androidx.media3.exoplayer.trackselection.TrackSelectionOverride
+import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.ui.AspectRatioFrameLayout
 import com.google.gson.reflect.TypeToken
 import com.vibeiptv.app.data.db.AppDatabase
@@ -59,6 +62,16 @@ class PlayerActivity : AppCompatActivity() {
     private var title: String = ""
     private var streamUrl: String = ""
     private var subs: Map<String, String> = emptyMap()
+
+    /** Subtitle files the user loaded from device storage this session. */
+    private val externalSubs = mutableListOf<MediaItem.SubtitleConfiguration>()
+    /** Label of a freshly loaded subtitle, auto-selected once tracks arrive. */
+    private var pendingSubLabel: String? = null
+
+    private val subtitlePicker =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+            if (uri != null) loadSubtitleFile(uri)
+        }
 
     // Live state
     private var channels: List<Channel> = emptyList()
@@ -111,6 +124,24 @@ class PlayerActivity : AppCompatActivity() {
 
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             updatePlayPauseIcon()
+        }
+
+        override fun onTracksChanged(tracks: Tracks) {
+            val want = pendingSubLabel ?: return
+            pendingSubLabel = null
+            val b = trackSelector.buildUponParameters()
+                .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false)
+            outer@ for (g in tracks.groups) {
+                if (g.type != C.TRACK_TYPE_TEXT) continue
+                for (i in 0 until g.length) {
+                    val f = g.getTrackFormat(i)
+                    if (f.label?.toString() == want) {
+                        b.setOverrideForType(TrackSelectionOverride(g.mediaTrackGroup, i))
+                        break@outer
+                    }
+                }
+            }
+            trackSelector.setParameters(b)
         }
     }
 
@@ -229,21 +260,7 @@ class PlayerActivity : AppCompatActivity() {
         trackSelector = DefaultTrackSelector(this)
         val dataSource = DefaultHttpDataSource.Factory().setUserAgent("VibeIPTV/1.0")
 
-        val subConfigs = subs.map { (label, url) ->
-            MediaItem.SubtitleConfiguration.Builder(Uri.parse(url))
-                .setMimeType(
-                    if (url.endsWith(".vtt", ignoreCase = true)) MimeTypes.TEXT_VTT
-                    else MimeTypes.TEXT_SUBRIP
-                )
-                .setLabel(label)
-                .setLanguage(label)
-                .build()
-        }
-        val item = MediaItem.Builder()
-            .setUri(streamUrl)
-            .setMediaMetadata(MediaMetadata.Builder().setTitle(title).build())
-            .setSubtitleConfigurations(subConfigs)
-            .build()
+        val item = buildMediaItem()
 
         val source = if (streamUrl.endsWith(".m3u8", ignoreCase = true))
             HlsMediaSource.Factory(dataSource).createMediaSource(item)
@@ -253,9 +270,9 @@ class PlayerActivity : AppCompatActivity() {
         val p = ExoPlayer.Builder(this, renderers)
             .setTrackSelector(trackSelector)
             .setLoadControl(loadControl)
+            .setSeekBackIncrementMs(10_000)
+            .setSeekForwardIncrementMs(10_000)
             .build()
-        p.seekBackIncrementMs = 10_000
-        p.seekForwardIncrementMs = 10_000
         p.addListener(listener)
         binding.playerView.player = p
         p.setMediaSource(source)
@@ -263,6 +280,42 @@ class PlayerActivity : AppCompatActivity() {
         p.play()
         player = p
         updatePlayPauseIcon()
+    }
+
+    /** Builds the media item from the stream URL plus provider and user-loaded subtitles. */
+    private fun buildMediaItem(): MediaItem {
+        val subConfigs = subs.map { (label, url) ->
+            MediaItem.SubtitleConfiguration.Builder(Uri.parse(url))
+                .setMimeType(
+                    if (url.endsWith(".vtt", ignoreCase = true)) MimeTypes.TEXT_VTT
+                    else MimeTypes.APPLICATION_SUBRIP
+                )
+                .setLabel(label)
+                .setLanguage(label)
+                .build()
+        } + externalSubs
+        return MediaItem.Builder()
+            .setUri(streamUrl)
+            .setMediaMetadata(MediaMetadata.Builder().setTitle(title).build())
+            .setSubtitleConfigurations(subConfigs)
+            .build()
+    }
+
+    /** Re-prepares the player with the current subtitle set, keeping position. */
+    private fun reloadWithSubtitles() {
+        val p = player ?: return
+        val pos = p.currentPosition
+        val wasPlaying = p.isPlaying
+        val dataSource = DefaultHttpDataSource.Factory().setUserAgent("VibeIPTV/1.0")
+        val item = buildMediaItem()
+        val source = if (streamUrl.endsWith(".m3u8", ignoreCase = true))
+            HlsMediaSource.Factory(dataSource).createMediaSource(item)
+        else
+            ProgressiveMediaSource.Factory(dataSource).createMediaSource(item)
+        p.setMediaSource(source)
+        p.prepare()
+        p.seekTo(pos)
+        if (wasPlaying) p.play()
     }
 
     private fun releasePlayer() {
@@ -374,6 +427,8 @@ class PlayerActivity : AppCompatActivity() {
         title = channel!!.name
         streamUrl = ContentRepository(this).liveStreamUrl(channel!!)
         seekDone = false
+        externalSubs.clear()
+        pendingSubLabel = null
         buildPlayer()
         updateBanner()
         showOsd()
@@ -427,23 +482,112 @@ class PlayerActivity : AppCompatActivity() {
                 items.add(TrackSel(label, g.mediaTrackGroup, i))
             }
         }
-        val labels = mutableListOf("Off")
+        val labels = mutableListOf("Load from file…", "Off")
         items.forEach { labels.add(it.label) }
         AlertDialog.Builder(this)
             .setTitle("Subtitles")
             .setItems(labels.toTypedArray()) { _, which ->
-                val b = trackSelector.buildUponParameters()
-                if (which == 0) {
-                    b.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
-                        .clearOverridesOfType(C.TRACK_TYPE_TEXT)
-                } else {
-                    val t = items[which - 1]
-                    b.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false)
-                        .setOverrideForType(TrackSelectionOverride(t.group, t.track))
+                when (which) {
+                    0 -> openSubtitlePicker()
+                    1 -> {
+                        trackSelector.setParameters(
+                            trackSelector.buildUponParameters()
+                                .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
+                                .clearOverridesOfType(C.TRACK_TYPE_TEXT)
+                        )
+                    }
+                    else -> {
+                        val t = items[which - 2]
+                        trackSelector.setParameters(
+                            trackSelector.buildUponParameters()
+                                .setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false)
+                                .setOverrideForType(TrackSelectionOverride(t.group, t.track))
+                        )
+                    }
                 }
-                trackSelector.setParameters(b)
             }
             .show()
+    }
+
+    /** System file picker for .srt / .vtt / .ass subtitle files. */
+    private fun openSubtitlePicker() {
+        try {
+            subtitlePicker.launch(
+                arrayOf(
+                    "text/plain", "text/vtt", "text/x-ssa",
+                    "application/x-subrip", "application/x-ssa",
+                    "application/octet-stream"
+                )
+            )
+        } catch (e: Exception) {
+            Toast.makeText(this, "No file picker available", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun loadSubtitleFile(uri: Uri) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                try {
+                    contentResolver.takePersistableUriPermission(
+                        uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                } catch (_: Exception) { /* best-effort */ }
+
+                val name = queryDisplayName(uri) ?: "subtitle.srt"
+                val ext = name.substringAfterLast('.', "").lowercase()
+                val mime = when (ext) {
+                    "vtt" -> MimeTypes.TEXT_VTT
+                    "srt" -> MimeTypes.APPLICATION_SUBRIP
+                    "ass", "ssa" -> MimeTypes.TEXT_SSA
+                    else -> null
+                }
+                if (mime == null) {
+                    toast("Unsupported subtitle format" + if (ext.isNotEmpty()) " (.$ext)" else "")
+                    return@launch
+                }
+                val destDir = java.io.File(cacheDir, "subs").apply { mkdirs() }
+                val out = java.io.File(destDir, "sub_${System.currentTimeMillis()}.$ext")
+                contentResolver.openInputStream(uri)?.use { ins ->
+                    out.outputStream().use { outs -> ins.copyTo(outs) }
+                }
+                if (!out.exists() || out.length() == 0L) {
+                    toast("Could not read subtitle file")
+                    return@launch
+                }
+                val label = name.substringBeforeLast('.').ifBlank { "External" }
+                val config = MediaItem.SubtitleConfiguration.Builder(Uri.fromFile(out))
+                    .setMimeType(mime)
+                    .setLabel(label)
+                    .setLanguage("und")
+                    .build()
+                withContext(Dispatchers.Main) {
+                    externalSubs.add(config)
+                    pendingSubLabel = label
+                    reloadWithSubtitles()
+                    Toast.makeText(
+                        this@PlayerActivity,
+                        "Subtitle loaded: $label",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                toast("Could not load subtitle: ${e.message}")
+            }
+        }
+    }
+
+    private fun queryDisplayName(uri: Uri): String? {
+        return try {
+            contentResolver.query(
+                uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null
+            )?.use { c -> if (c.moveToFirst()) c.getString(0) else null }
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    private suspend fun toast(msg: String) = withContext(Dispatchers.Main) {
+        Toast.makeText(this@PlayerActivity, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun cycleAspect() {

@@ -13,12 +13,6 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        maven { url = uri("file:///home/hatch/workspace/m2repo") }
-    }
-}
-
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

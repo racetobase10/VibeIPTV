@@ -17,3 +17,6 @@ local.properties
 
 # OS
 .DS_Store
+
+# Kotlin plugin local state
+.kotlin/

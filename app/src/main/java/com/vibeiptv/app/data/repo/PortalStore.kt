@@ -95,4 +95,22 @@ class PortalStore(ctx: Context) {
     fun setLockedCategoryIds(ids: Set<String>) {
         secure.edit().putString("locked_cats", ids.joinToString(",")).apply()
     }
+
+    /** TMDB API key for external ratings (encrypted). Null/blank = not configured. */
+    fun getTmdbApiKey(): String? = secure.getString("tmdb_key", null)?.ifBlank { null }
+
+    fun setTmdbApiKey(key: String?) {
+        val e = secure.edit()
+        if (key.isNullOrBlank()) e.remove("tmdb_key") else e.putString("tmdb_key", key.trim())
+        e.apply()
+    }
+
+    /** OMDb API key for external ratings (encrypted). Null/blank = not configured. */
+    fun getOmdbApiKey(): String? = secure.getString("omdb_key", null)?.ifBlank { null }
+
+    fun setOmdbApiKey(key: String?) {
+        val e = secure.edit()
+        if (key.isNullOrBlank()) e.remove("omdb_key") else e.putString("omdb_key", key.trim())
+        e.apply()
+    }
 }

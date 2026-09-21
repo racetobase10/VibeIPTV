@@ -10,9 +10,10 @@ import androidx.room.RoomDatabase
         FavoriteEntity::class,
         ResumeEntity::class,
         EpgProgrammeEntity::class,
-        EpgMetaEntity::class
+        EpgMetaEntity::class,
+        RatingEntity::class
     ],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -20,6 +21,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun resumeDao(): ResumeDao
     abstract fun epgDao(): EpgDao
     abstract fun epgMetaDao(): EpgMetaDao
+    abstract fun ratingDao(): RatingDao
 
     companion object {
         @Volatile
