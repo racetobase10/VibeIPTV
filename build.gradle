@@ -1,0 +1,24 @@
+// Root build file for Vibe IPTV.
+// Uses buildscript classpath deps (resolved from the local pre-fetched Maven
+// repo) instead of the plugins DSL, because the sandbox has no direct
+// internet access for the Gradle Plugin Portal. All artifacts are pre-fetched
+// into ~/workspace/m2repo via curl.
+buildscript {
+    repositories {
+        maven { url = uri("file:///home/hatch/workspace/m2repo") }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.5.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url = uri("file:///home/hatch/workspace/m2repo") }
+    }
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

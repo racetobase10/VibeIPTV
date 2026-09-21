@@ -1,0 +1,19 @@
+# Gradle / build outputs
+.gradle/
+build/
+app/build/
+*/build/
+
+# Local config (machine-specific)
+local.properties
+
+# Signing keys — NEVER commit
+*.keystore
+*.jks
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store

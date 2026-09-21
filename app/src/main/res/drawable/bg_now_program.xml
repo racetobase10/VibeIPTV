@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Accent-tinted background for the currently-airing programme block in the TV guide. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#66E63946" />
+            <stroke android:width="3dp" android:color="@color/focus_ring" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#66E63946" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#26E63946" />
+            <stroke android:width="1dp" android:color="#66E63946" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+</selector>

@@ -1,0 +1,17 @@
+// Offline build: every dependency is pre-fetched into ~/workspace/m2repo
+// (Java/Gradle cannot reach the network in this sandbox; curl is used to
+// populate the local repo). Only the local file repo is listed so resolution
+// fails fast instead of hanging on unreachable remotes.
+pluginManagement {
+    repositories {
+        maven { url = uri("file:///home/hatch/workspace/m2repo") }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url = uri("file:///home/hatch/workspace/m2repo") }
+    }
+}
+rootProject.name = "VibeIPTV"
+include ':app'
