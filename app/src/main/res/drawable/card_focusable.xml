@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Primary action button: blue fill; focused = white ring (visible on blue). -->
+<!-- Small-radius focusable card (posters, tiles): surface fill; focused = blue ring. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/accent" />
-            <stroke android:width="@dimen/focus_stroke" android:color="@color/focus_ring_on_accent" />
+            <solid android:color="@color/surface2" />
+            <stroke android:width="@dimen/focus_stroke" android:color="@color/focus_ring" />
             <corners android:radius="12dp" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/accent_dark" />
+            <solid android:color="@color/surface2" />
             <corners android:radius="12dp" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/accent" />
+            <solid android:color="@color/surface" />
             <corners android:radius="12dp" />
         </shape>
     </item>

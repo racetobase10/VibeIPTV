@@ -33,6 +33,7 @@ import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.ui.AspectRatioFrameLayout
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.reflect.TypeToken
 import com.vibeiptv.app.data.db.AppDatabase
 import com.vibeiptv.app.data.db.ResumeEntity
@@ -44,6 +45,7 @@ import com.vibeiptv.app.data.repo.ContentRepository
 import com.vibeiptv.app.data.repo.EpgRepository
 import com.vibeiptv.app.data.repo.PortalStore
 import com.vibeiptv.app.databinding.ActivityPlayerBinding
+import com.vibeiptv.app.R
 import com.vibeiptv.app.ui.recordings.RecordService
 import com.vibeiptv.app.util.Format
 import com.vibeiptv.app.util.Json
@@ -115,11 +117,7 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         override fun onPlayerError(error: PlaybackException) {
-            Toast.makeText(
-                this@PlayerActivity,
-                "Playback error: ${error.message ?: "unknown"}",
-                Toast.LENGTH_LONG
-            ).show()
+            snack("Playback error: ${error.message ?: "unknown"}")
             showOsd() // keep controls visible on error
         }
 
@@ -375,6 +373,17 @@ class PlayerActivity : AppCompatActivity() {
         binding.topBanner.visibility = if (bannerVisible) View.VISIBLE else View.GONE
     }
 
+    /** Dark error-style snackbar: surface background, white text. */
+    private fun snack(msg: String, long: Boolean = true) {
+        Snackbar.make(
+            binding.rootView, msg,
+            if (long) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT
+        )
+            .setBackgroundTint(ContextCompat.getColor(this, R.color.surface))
+            .setTextColor(ContextCompat.getColor(this, R.color.text_primary))
+            .show()
+    }
+
     private fun updateBanner() {
         binding.tvTitle.text = title
         when (mode) {
@@ -443,7 +452,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun showAudioDialog() {
         val groups = player?.currentTracks?.groups
         if (groups == null) {
-            Toast.makeText(this, "No audio tracks", Toast.LENGTH_SHORT).show(); return
+            snack("No audio tracks", long = false); return
         }
         val items = mutableListOf<TrackSel>()
         for (g in groups) {
@@ -458,7 +467,7 @@ class PlayerActivity : AppCompatActivity() {
             }
         }
         if (items.isEmpty()) {
-            Toast.makeText(this, "No audio tracks", Toast.LENGTH_SHORT).show(); return
+            snack("No audio tracks", long = false); return
         }
         AlertDialog.Builder(this)
             .setTitle("Audio track")
@@ -475,7 +484,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun showSubsDialog() {
         val groups = player?.currentTracks?.groups
         if (groups == null) {
-            Toast.makeText(this, "No subtitles", Toast.LENGTH_SHORT).show(); return
+            snack("No subtitles", long = false); return
         }
         val items = mutableListOf<TrackSel>()
         for (g in groups) {
@@ -524,7 +533,7 @@ class PlayerActivity : AppCompatActivity() {
                 )
             )
         } catch (e: Exception) {
-            Toast.makeText(this, "No file picker available", Toast.LENGTH_SHORT).show()
+            snack("No file picker available", long = false)
         }
     }
 
@@ -587,7 +596,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private suspend fun toast(msg: String) = withContext(Dispatchers.Main) {
-        Toast.makeText(this@PlayerActivity, msg, Toast.LENGTH_SHORT).show()
+        snack(msg, long = false)
     }
 
     private fun cycleAspect() {
@@ -625,7 +634,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun startRecording() {
         val ch = channel ?: return
         if (streamUrl.endsWith(".m3u8", ignoreCase = true)) {
-            Toast.makeText(this, "Recording not supported for HLS streams", Toast.LENGTH_SHORT).show()
+            snack("Recording not supported for HLS streams", long = false)
             return
         }
         val safe = ch.name.replace(Regex("[^A-Za-z0-9._-]"), "_").take(60)

@@ -25,6 +25,7 @@ class PortalSetupActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_EDIT_ID = "edit_id"
+        const val EXTRA_TYPE = "type"
     }
 
     private lateinit var binding: ActivityPortalSetupBinding
@@ -61,6 +62,11 @@ class PortalSetupActivity : AppCompatActivity() {
         binding.btnTypeXtream.setOnClickListener { setType(PortalType.XTREAM) }
         binding.btnTypeM3u.setOnClickListener { setType(PortalType.M3U) }
         binding.btnSave.setOnClickListener { saveAndConnect() }
+
+        // Empty-state "Add Playlist" shortcut preselects the M3U form.
+        if (editId == null && intent.getStringExtra(EXTRA_TYPE) == PortalType.M3U.name) {
+            setType(PortalType.M3U)
+        }
     }
 
     private fun prefill(p: PortalConfig?) {
@@ -85,10 +91,10 @@ class PortalSetupActivity : AppCompatActivity() {
         binding.layoutM3u.visibility = if (xtream) View.GONE else View.VISIBLE
         binding.btnTypeXtream.setBackgroundResource(
             if (xtream) com.vibeiptv.app.R.drawable.btn_accent_focusable
-            else com.vibeiptv.app.R.drawable.item_focusable
+            else com.vibeiptv.app.R.drawable.btn_ghost_focusable
         )
         binding.btnTypeM3u.setBackgroundResource(
-            if (xtream) com.vibeiptv.app.R.drawable.item_focusable
+            if (xtream) com.vibeiptv.app.R.drawable.btn_ghost_focusable
             else com.vibeiptv.app.R.drawable.btn_accent_focusable
         )
     }

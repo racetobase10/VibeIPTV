@@ -4,31 +4,53 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg"
-    android:padding="12dp">
+    android:padding="@dimen/screen_margin">
 
     <TextView
+        style="@style/Text.MyTVPlayer.Headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Recordings"
-        android:textColor="@color/text_primary"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:text="Recordings" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRecordings"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="@dimen/spacing_8"
+        android:clipToPadding="false" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/txtEmpty"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:gravity="center"
-        android:text="No recordings yet"
-        android:textColor="@color/text_secondary"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:padding="@dimen/spacing_24"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="●"
+            android:textSize="48sp"
+            android:textColor="@color/live_badge" />
+
+        <TextView
+            style="@style/Text.MyTVPlayer.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:text="No recordings yet" />
+
+        <TextView
+            style="@style/Text.MyTVPlayer.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:gravity="center"
+            android:text="Record live TV from the player to watch it here."
+            android:textColor="@color/text_secondary" />
+    </LinearLayout>
 </LinearLayout>

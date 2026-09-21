@@ -1,11 +1,13 @@
 package com.vibeiptv.app.ui.guide
 
 import android.app.AlertDialog
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -110,16 +112,43 @@ class GuideActivity : AppCompatActivity() {
 
             val box = h.b.blocksContainer
             box.removeAllViews()
-            // Offset spacer so blocks line up with the timeline header.
-            val first = row.programmes.firstOrNull()
-            val offsetMin = if (first != null) ((maxOf(first.startUtc, windowStart) - windowStart) / 60000L).toInt() else 0
-            if (offsetMin > 0) {
-                val sp = View(this@GuideActivity)
-                sp.layoutParams = LinearLayout.LayoutParams(dp(offsetMin * 6), dp(1))
-                box.addView(sp)
+            // Dimmed filler for empty time slots (leading offset, gaps, trailing) so
+            // the timeline never shows blank holes.
+            var cursor = windowStart
+            for (prog in row.programmes.sortedBy { it.startUtc }) {
+                val s = maxOf(prog.startUtc, windowStart)
+                val e = minOf(prog.stopUtc, windowEnd)
+                if (s >= e) continue
+                val gapMin = ((s - cursor) / 60000L).toInt()
+                if (gapMin >= 5) box.addView(gapView(gapMin * 6))
+                box.addView(blockView(ch, prog))
+                cursor = maxOf(cursor, e)
             }
-            for (prog in row.programmes) box.addView(blockView(ch, prog))
+            val tailMin = ((windowEnd - cursor) / 60000L).toInt()
+            if (tailMin >= 5) box.addView(gapView(tailMin * 6))
+            // NOW-LINE: 2dp accent line at the current time position inside the
+            // scrollable timeline (6dp per minute, same scale as the blocks).
+            val nowLine = h.b.nowLine
+            if (now in windowStart..windowEnd) {
+                val lp = nowLine.layoutParams as FrameLayout.LayoutParams
+                lp.leftMargin = dp((((now - windowStart) / 60000L) * 6).toInt())
+                nowLine.layoutParams = lp
+                nowLine.visibility = View.VISIBLE
+            } else {
+                nowLine.visibility = View.GONE
+            }
         }
+    }
+
+    /** Dimmed, non-focusable filler block for empty EPG time slots. */
+    private fun gapView(widthDp: Int): View {
+        val v = View(this)
+        val lp = LinearLayout.LayoutParams(dp(maxOf(24, widthDp)), dp(64))
+        lp.setMargins(dp(2), dp(2), dp(2), dp(2))
+        v.layoutParams = lp
+        v.setBackgroundColor(getColor(R.color.surface))
+        v.isFocusable = false
+        return v
     }
 
     private fun blockView(ch: Channel, prog: EpgProgramme): TextView {
@@ -139,7 +168,12 @@ class GuideActivity : AppCompatActivity() {
         tv.isFocusable = true
         tv.isClickable = true
         val isNow = prog.startUtc <= now && now < prog.stopUtc
-        tv.setBackgroundResource(if (isNow) R.drawable.bg_now_program else R.drawable.item_focusable)
+        tv.setBackgroundResource(R.drawable.card_focusable)
+        // Current programme: accent tint highlight (focus ring still shows on top).
+        tv.backgroundTintList = if (isNow)
+            ColorStateList.valueOf((getColor(R.color.accent) and 0x00FFFFFF) or 0x40000000)
+        else
+            null
         tv.setOnClickListener { onProgrammeClick(ch, prog) }
         return tv
     }

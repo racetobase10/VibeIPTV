@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Visible d-pad / keyboard focus highlight used on every interactive view. -->
+<!-- Generic focusable list/card item: surface fill; focused = blue ring. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="true">
         <shape android:shape="rectangle">
             <solid android:color="@color/surface2" />
-            <stroke android:width="3dp" android:color="@color/focus_ring" />
-            <corners android:radius="10dp" />
+            <stroke android:width="@dimen/focus_stroke" android:color="@color/focus_ring" />
+            <corners android:radius="16dp" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <solid android:color="@color/surface2" />
-            <corners android:radius="10dp" />
+            <corners android:radius="16dp" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/surface" />
-            <corners android:radius="10dp" />
+            <corners android:radius="16dp" />
         </shape>
     </item>
 </selector>

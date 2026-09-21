@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.vibeiptv.app.R
 import com.vibeiptv.app.data.repo.ContentRepository
 import com.vibeiptv.app.data.repo.EpgRepository
 import com.vibeiptv.app.data.repo.PortalStore
@@ -35,18 +36,18 @@ class SettingsActivity : AppCompatActivity() {
         portalStore = PortalStore(this)
         repo = ContentRepository(this)
 
-        binding.btnManagePortals.setOnClickListener {
+        binding.rowManagePortals.setOnClickListener {
             startActivity(Intent(this, PortalManagerActivity::class.java))
         }
-        binding.btnDecoder.setOnClickListener { showDecoderDialog() }
-        binding.btnBuffer.setOnClickListener { showBufferDialog() }
-        binding.btnEpgRefresh.setOnClickListener { refreshEpg() }
-        binding.btnEpgClear.setOnClickListener { clearEpgCache() }
-        binding.btnSetPin.setOnClickListener { showSetPin() }
-        binding.btnRemovePin.setOnClickListener { confirmRemovePin() }
-        binding.btnLockedCats.setOnClickListener { showLockedCategories() }
-        binding.btnTmdbKey.setOnClickListener { showApiKeyDialog("TMDB") }
-        binding.btnOmdbKey.setOnClickListener { showApiKeyDialog("OMDb") }
+        binding.rowDecoder.setOnClickListener { showDecoderDialog() }
+        binding.rowBuffer.setOnClickListener { showBufferDialog() }
+        binding.rowEpgRefresh.setOnClickListener { refreshEpg() }
+        binding.rowEpgClear.setOnClickListener { clearEpgCache() }
+        binding.rowSetPin.setOnClickListener { showSetPin() }
+        binding.rowRemovePin.setOnClickListener { confirmRemovePin() }
+        binding.rowLockedCats.setOnClickListener { showLockedCategories() }
+        binding.rowTmdbKey.setOnClickListener { showApiKeyDialog("TMDB") }
+        binding.rowOmdbKey.setOnClickListener { showApiKeyDialog("OMDb") }
 
         refreshPortalInfo()
         refreshDecoderButton()
@@ -58,10 +59,10 @@ class SettingsActivity : AppCompatActivity() {
     private fun refreshApiKeyButtons() {
         val tmdbSet = !portalStore.getTmdbApiKey().isNullOrBlank()
         val omdbSet = !portalStore.getOmdbApiKey().isNullOrBlank()
-        binding.btnTmdbKey.text = if (tmdbSet) "TMDB API key: Set ✓ (tap to change/remove)"
-        else "TMDB API key: Not set"
-        binding.btnOmdbKey.text = if (omdbSet) "OMDb API key: Set ✓ (tap to change/remove)"
-        else "OMDb API key: Not set"
+        binding.btnTmdbKey.text = if (tmdbSet) "Set ✓ (tap to change/remove)"
+        else "Not set"
+        binding.btnOmdbKey.text = if (omdbSet) "Set ✓ (tap to change/remove)"
+        else "Not set"
     }
 
     private fun showApiKeyDialog(which: String) {
@@ -69,6 +70,9 @@ class SettingsActivity : AppCompatActivity() {
             inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             setPadding(48, 32, 48, 32)
             hint = "Paste $which API key"
+            setBackgroundResource(R.drawable.item_focusable)
+            setHintTextColor(getColor(R.color.text_hint))
+            setTextColor(getColor(R.color.text_primary))
         }
         AlertDialog.Builder(this)
             .setTitle("$which API key")
@@ -103,7 +107,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun refreshDecoderButton() {
         val label = if (portalStore.decoderMode == "software") "Software" else "Auto"
-        binding.btnDecoder.text = "Decoder mode: $label"
+        binding.btnDecoder.text = label
     }
 
     private fun refreshBufferButton() {
@@ -112,7 +116,7 @@ class SettingsActivity : AppCompatActivity() {
             60000 -> "60s"
             else -> "30s"
         }
-        binding.btnBuffer.text = "Buffer size: $label"
+        binding.btnBuffer.text = label
     }
 
     private fun showDecoderDialog() {
@@ -143,7 +147,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun refreshEpg() {
-        binding.btnEpgRefresh.isEnabled = false
+        binding.rowEpgRefresh.isEnabled = false
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 EpgRepository(this@SettingsActivity).refreshIfNeeded(force = true)
@@ -152,7 +156,7 @@ class SettingsActivity : AppCompatActivity() {
                 toast("EPG refresh failed: ${e.message}")
             }
             withContext(Dispatchers.Main) {
-                binding.btnEpgRefresh.isEnabled = true
+                binding.rowEpgRefresh.isEnabled = true
                 refreshEpgUpdated()
             }
         }
@@ -184,6 +188,9 @@ class SettingsActivity : AppCompatActivity() {
         inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
         filters = arrayOf(InputFilter.LengthFilter(4))
         setPadding(48, 32, 48, 32)
+        setBackgroundResource(R.drawable.item_focusable)
+        setHintTextColor(getColor(R.color.text_hint))
+        setTextColor(getColor(R.color.text_primary))
     }
 
     private fun showSetPin() {

@@ -50,7 +50,7 @@ class VodDetailActivity : AppCompatActivity() {
             vod.year?.takeIf { it.isNotBlank() },
             vod.genre?.takeIf { it.isNotBlank() },
             vod.duration?.takeIf { it.isNotBlank() },
-            if (vod.rating > 0) "★ %.1f".format(vod.rating) else null
+            if (vod.rating > 0) "★ TMDB %.1f".format(vod.rating) else null
         ).joinToString(" • ")
         binding.txtMeta.text = meta
         binding.txtPlot.text = vod.plot ?: "No plot available."

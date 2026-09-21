@@ -13,17 +13,74 @@
         <item name="android:statusBarColor">@color/bg</item>
         <item name="android:navigationBarColor">@color/bg</item>
         <item name="android:defaultFocusHighlightEnabled">false</item>
+        <!-- App-wide dialog styling: dark surface, rounded, blue buttons -->
+        <item name="alertDialogTheme">@style/Theme.MyTVPlayer.Dialog</item>
+        <item name="android:alertDialogTheme">@style/Theme.MyTVPlayer.Dialog</item>
+    </style>
+
+    <!-- Rounded dark dialog used by every AlertDialog in the app. -->
+    <style name="Theme.MyTVPlayer.Dialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">@color/surface</item>
+        <item name="elevation">8dp</item>
+        <item name="shapeAppearanceSmallComponent">@style/Shape.MyTVPlayer.Dialog</item>
+        <item name="shapeAppearanceMediumComponent">@style/Shape.MyTVPlayer.Dialog</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.MyTVPlayer.DialogButton.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.MyTVPlayer.DialogButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.MyTVPlayer.DialogButton</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+    </style>
+
+    <style name="Shape.MyTVPlayer.Dialog" parent="">
+        <item name="cornerSize">@dimen/dialog_radius</item>
+    </style>
+
+    <style name="Widget.MyTVPlayer.DialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="Widget.MyTVPlayer.DialogButton.Positive" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/accent</item>
     </style>
 
     <style name="Widget.MyTVPlayer.Button" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/accent</item>
         <item name="android:textColor">@color/text_primary</item>
-        <item name="cornerRadius">10dp</item>
+        <item name="cornerRadius">12dp</item>
     </style>
 
     <style name="Widget.MyTVPlayer.TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/divider</item>
         <item name="hintTextColor">@color/text_secondary</item>
         <item name="android:textColorHint">@color/text_hint</item>
+    </style>
+
+    <!-- Section header text appearance: 14sp semibold secondary -->
+    <style name="Text.MyTVPlayer.SectionHeader" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:letterSpacing">0.04</item>
+    </style>
+
+    <style name="Text.MyTVPlayer.Headline" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textSize">@dimen/text_headline</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="Text.MyTVPlayer.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="Text.MyTVPlayer.Body" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="Text.MyTVPlayer.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textColor">@color/text_hint</item>
     </style>
 </resources>

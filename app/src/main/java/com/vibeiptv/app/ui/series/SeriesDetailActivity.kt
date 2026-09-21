@@ -67,7 +67,7 @@ class SeriesDetailActivity : AppCompatActivity() {
         val meta = listOfNotNull(
             series.releaseDate?.takeIf { it.isNotBlank() },
             series.genre?.takeIf { it.isNotBlank() },
-            if (series.rating > 0) "★ %.1f".format(series.rating) else null
+            if (series.rating > 0) "★ TMDB %.1f".format(series.rating) else null
         ).joinToString(" • ")
         binding.txtMeta.text = meta
         binding.txtPlot.text = series.plot ?: "No plot available."
@@ -76,6 +76,13 @@ class SeriesDetailActivity : AppCompatActivity() {
         binding.txtCast.text = series.cast ?: ""
         if (!series.cover.isNullOrBlank()) {
             binding.imgCover.load(series.cover) {
+                crossfade(true)
+                placeholder(R.drawable.bg_image_placeholder)
+                error(R.drawable.bg_image_placeholder)
+            }
+        }
+        if (!series.backdrop.isNullOrBlank()) {
+            binding.imgBackdrop.load(series.backdrop) {
                 crossfade(true)
                 placeholder(R.drawable.bg_image_placeholder)
                 error(R.drawable.bg_image_placeholder)
@@ -219,7 +226,8 @@ class SeriesDetailActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(h: VH, pos: Int) {
             val ep = items[pos]
-            h.b.txtTitle.text = "E${ep.episodeNum} · ${ep.title}"
+            h.b.txtEpisodeBadge.text = "E${ep.episodeNum}"
+            h.b.txtTitle.text = ep.title
             h.b.txtPlot.text = ep.plot ?: ""
             h.b.txtMeta.text = listOfNotNull(
                 ep.airDate?.takeIf { it.isNotBlank() },

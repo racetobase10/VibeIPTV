@@ -10,16 +10,15 @@
         android:layout_height="match_parent"
         android:background="@color/surface"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="@dimen/spacing_8">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Categories"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_margin="@dimen/spacing_8"
+            style="@style/Text.MyTVPlayer.Title"
+            android:textStyle="bold"
+            android:text="Categories" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCategories"
@@ -33,7 +32,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="@dimen/spacing_12">
 
         <EditText
             android:id="@+id/etSearch"
@@ -41,17 +40,20 @@
             android:layout_height="wrap_content"
             android:background="@drawable/item_focusable"
             android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="Search channels"
             android:inputType="text"
-            android:padding="12dp"
+            android:padding="@dimen/spacing_12"
             android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_hint" />
+            android:textColorHint="@color/text_hint"
+            android:textSize="@dimen/text_body"
+            android:singleLine="true" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvChannels"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/spacing_8"
             android:clipToPadding="false" />
     </LinearLayout>
 </LinearLayout>

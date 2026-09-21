@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/screen_margin">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,29 +16,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vibe IPTV"
-            android:textColor="@color/text_primary"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            style="@style/Text.MyTVPlayer.Headline" />
 
         <TextView
             android:id="@+id/tvPortal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/spacing_16"
             android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            style="@style/Text.MyTVPlayer.Body" />
 
         <TextView
             android:id="@+id/tvClock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginEnd="@dimen/spacing_12"
+            android:textStyle="bold"
+            style="@style/Text.MyTVPlayer.Title" />
 
         <ImageButton
             android:id="@+id/btnSettings"
@@ -55,6 +51,6 @@
         android:id="@+id/rvTiles"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/spacing_16"
         android:clipToPadding="false" />
 </LinearLayout>

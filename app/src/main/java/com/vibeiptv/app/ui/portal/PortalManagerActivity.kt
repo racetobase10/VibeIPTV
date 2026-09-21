@@ -1,6 +1,7 @@
 package com.vibeiptv.app.ui.portal
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.vibeiptv.app.R
 import com.vibeiptv.app.data.model.PortalConfig
 import com.vibeiptv.app.data.model.PortalType
 import com.vibeiptv.app.data.repo.PortalStore
@@ -50,11 +52,26 @@ class PortalManagerActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener {
             startActivity(Intent(this, PortalSetupActivity::class.java))
         }
+        binding.btnAddEmpty.setOnClickListener {
+            startActivity(Intent(this, PortalSetupActivity::class.java))
+        }
+        binding.btnAddPlaylist.setOnClickListener {
+            startActivity(
+                Intent(this, PortalSetupActivity::class.java)
+                    .putExtra(PortalSetupActivity.EXTRA_TYPE, PortalType.M3U.name)
+            )
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        adapter.submit(store.getPortals(), store.getActivePortal()?.id)
+        val portals = store.getPortals()
+        val empty = portals.isEmpty()
+        binding.layoutEmpty.visibility = if (empty) View.VISIBLE else View.GONE
+        binding.rvPortals.visibility = if (empty) View.GONE else View.VISIBLE
+        binding.tvTitle.visibility = if (empty) View.GONE else View.VISIBLE
+        binding.btnAdd.visibility = if (empty) View.GONE else View.VISIBLE
+        adapter.submit(portals, store.getActivePortal()?.id)
     }
 
     private fun confirmDelete(p: PortalConfig) {
@@ -111,6 +128,11 @@ class PortalManagerActivity : AppCompatActivity() {
                 PortalType.M3U -> "M3U Playlist"
             }
             holder.b.tvServer.text = p.serverUrl
+            holder.b.viewStatusDot.backgroundTintList = ColorStateList.valueOf(
+                holder.itemView.context.getColor(
+                    if (isActive) R.color.success else R.color.divider
+                )
+            )
             holder.b.btnSwitch.isEnabled = !isActive
             holder.b.btnSwitch.alpha = if (isActive) 0.4f else 1f
             holder.b.btnSwitch.setOnClickListener { onSwitch(p) }

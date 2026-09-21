@@ -4,29 +4,97 @@
     android:layout_height="match_parent"
     android:background="@color/bg"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/screen_margin">
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Portals"
-        android:textColor="@color/text_primary"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        style="@style/Text.MyTVPlayer.Headline" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPortals"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/spacing_12"
         android:layout_weight="1"
         android:clipToPadding="false" />
+
+    <!-- Welcome-style empty state: shown when no portals exist. -->
+    <LinearLayout
+        android:id="@+id/layoutEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vibe IPTV"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/text_headline"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_12"
+            android:gravity="center"
+            android:text="Add your first portal"
+            style="@style/Text.MyTVPlayer.Headline" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:gravity="center"
+            android:text="Bring your own provider — no streams are included."
+            style="@style/Text.MyTVPlayer.Body" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_24"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnAddEmpty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/btn_accent_focusable"
+                android:focusable="true"
+                android:paddingTop="@dimen/spacing_16"
+                android:paddingBottom="@dimen/spacing_16"
+                android:text="Add Portal"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_title" />
+
+            <Button
+                android:id="@+id/btnAddPlaylist"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_12"
+                android:layout_weight="1"
+                android:background="@drawable/btn_ghost_focusable"
+                android:focusable="true"
+                android:paddingTop="@dimen/spacing_16"
+                android:paddingBottom="@dimen/spacing_16"
+                android:text="Add Playlist"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_title" />
+        </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/spacing_12"
         android:background="@drawable/btn_accent_focusable"
         android:focusable="true"
         android:text="Add portal"

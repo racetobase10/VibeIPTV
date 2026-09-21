@@ -8,185 +8,320 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/screen_margin">
 
         <TextView
+            style="@style/Text.MyTVPlayer.SectionHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PORTAL"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:text="Portal" />
 
         <TextView
             android:id="@+id/txtPortalInfo"
+            style="@style/Text.MyTVPlayer.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/text_primary"
-            android:textSize="15sp" />
-
-        <Button
-            android:id="@+id/btnManagePortals"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Manage portals"
-            android:focusable="true"
-            android:background="@drawable/item_focusable"
+            android:layout_marginTop="@dimen/spacing_8"
             android:textColor="@color/text_primary" />
+
+        <LinearLayout
+            android:id="@+id/rowManagePortals"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:background="@drawable/item_focusable"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
+
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Manage portals"
+                android:textColor="@color/text_primary" />
+        </LinearLayout>
 
         <TextView
+            style="@style/Text.MyTVPlayer.SectionHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="PLAYER"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="@dimen/spacing_24"
+            android:text="Playback" />
 
-        <Button
-            android:id="@+id/btnDecoder"
+        <LinearLayout
+            android:id="@+id/rowDecoder"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Decoder mode"
-            android:focusable="true"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
             android:background="@drawable/item_focusable"
-            android:textColor="@color/text_primary" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
 
-        <Button
-            android:id="@+id/btnBuffer"
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Decoder mode"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/btnDecoder"
+                style="@style/Text.MyTVPlayer.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rowBuffer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Buffer size"
-            android:focusable="true"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
             android:background="@drawable/item_focusable"
-            android:textColor="@color/text_primary" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
+
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Buffer size"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/btnBuffer"
+                style="@style/Text.MyTVPlayer.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
 
         <TextView
+            style="@style/Text.MyTVPlayer.SectionHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="EPG"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="@dimen/spacing_24"
+            android:text="EPG" />
 
-        <Button
-            android:id="@+id/btnEpgRefresh"
+        <LinearLayout
+            android:id="@+id/rowEpgRefresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Refresh EPG now"
-            android:focusable="true"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
             android:background="@drawable/item_focusable"
-            android:textColor="@color/text_primary" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
 
-        <Button
-            android:id="@+id/btnEpgClear"
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Refresh EPG now"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/txtEpgUpdated"
+                style="@style/Text.MyTVPlayer.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rowEpgClear"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Clear EPG cache"
-            android:focusable="true"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
             android:background="@drawable/item_focusable"
-            android:textColor="@color/text_primary" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
+
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Clear EPG cache"
+                android:textColor="@color/text_primary" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/txtEpgUpdated"
+            style="@style/Text.MyTVPlayer.SectionHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:layout_marginTop="@dimen/spacing_24"
+            android:text="Ratings" />
+
+        <LinearLayout
+            android:id="@+id/rowTmdbKey"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:background="@drawable/item_focusable"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
+
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TMDB API key"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/btnTmdbKey"
+                style="@style/Text.MyTVPlayer.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rowOmdbKey"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:background="@drawable/item_focusable"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
+
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="OMDb API key"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/btnOmdbKey"
+                style="@style/Text.MyTVPlayer.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
 
         <TextView
+            style="@style/Text.MyTVPlayer.SectionHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="RATINGS"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="@dimen/spacing_24"
+            android:text="Parental Control" />
 
-        <Button
-            android:id="@+id/btnTmdbKey"
+        <LinearLayout
+            android:id="@+id/rowSetPin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="TMDB API key"
-            android:focusable="true"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
             android:background="@drawable/item_focusable"
-            android:textColor="@color/text_primary" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
 
-        <Button
-            android:id="@+id/btnOmdbKey"
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Set/Change PIN"
+                android:textColor="@color/text_primary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rowRemovePin"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="OMDb API key"
-            android:focusable="true"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
             android:background="@drawable/item_focusable"
-            android:textColor="@color/text_primary" />
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
+
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Remove PIN"
+                android:textColor="@color/text_primary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rowLockedCats"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_height"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:background="@drawable/item_focusable"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/spacing_12">
+
+            <TextView
+                style="@style/Text.MyTVPlayer.Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Locked categories"
+                android:textColor="@color/text_primary" />
+        </LinearLayout>
 
         <TextView
+            style="@style/Text.MyTVPlayer.SectionHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="PARENTAL CONTROL"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnSetPin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Set/Change PIN"
-            android:focusable="true"
-            android:background="@drawable/item_focusable"
-            android:textColor="@color/text_primary" />
-
-        <Button
-            android:id="@+id/btnRemovePin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Remove PIN"
-            android:focusable="true"
-            android:background="@drawable/item_focusable"
-            android:textColor="@color/text_primary" />
-
-        <Button
-            android:id="@+id/btnLockedCats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Locked categories"
-            android:focusable="true"
-            android:background="@drawable/item_focusable"
-            android:textColor="@color/text_primary" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="ABOUT"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="@dimen/spacing_24"
+            android:text="About" />
 
         <TextView
             android:id="@+id/txtAbout"
+            style="@style/Text.MyTVPlayer.Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:layout_marginBottom="@dimen/spacing_16"
             android:text="Vibe IPTV v1.0\nOriginal software — bring your own portal. No streams included.\ncom.vibeiptv.app"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:textColor="@color/text_secondary" />
     </LinearLayout>
 </ScrollView>

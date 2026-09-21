@@ -38,6 +38,26 @@ or credentials** — on first launch you add your own.
 
 ## What's new
 
+### v1.2 (2026-09-21)
+- **Visual polish pass** — unified design system across the app: dark charcoal
+  theme with blue accent, consistent 16dp cards, spacing scale, and type scale
+- **Portal setup** — welcome-style empty state with large "Add Portal" /
+  "Add Playlist" cards
+- **Home** — sectioned dashboard cards with counts for Live TV, Movies,
+  Series, Guide, Favorites, Recordings
+- **Live TV** — category rail, channel rows with rounded logo thumbs and
+  now/next EPG, styled search
+- **Guide** — timeline grid with sticky time header, accent now-line,
+  rounded program blocks
+- **Movies & Series** — true 2:3 poster cards with year + rating badges
+- **Detail screens** — hero backdrop with gradient scrim, meta row, clear
+  Play / Favorite / Resume actions, numbered episode cards
+- **Player** — floating rounded OSD pill with gradient scrims, accent
+  loading spinner, styled dialogs and subtitle picker
+- **Settings** — grouped sections with headers, consistent rows, blue switches
+- **TV focus** — visible focus ring + scale on every focusable element for
+  D-pad navigation
+
 ### v1.1 (2026-09-21)
 - **Edge-to-edge safe areas** — all screens now respect the status bar,
   navigation bar, and display cutouts, so no layout bleeds under the system

@@ -2,6 +2,7 @@ package com.vibeiptv.app.ui.home
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.vibeiptv.app.R
 import com.vibeiptv.app.data.repo.EpgRepository
 import com.vibeiptv.app.data.repo.PortalStore
 import com.vibeiptv.app.databinding.ActivityHomeBinding
@@ -71,6 +73,9 @@ class HomeActivity : AppCompatActivity() {
         )
         val span = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 4 else 3
         binding.rvTiles.layoutManager = GridLayoutManager(this, span)
+        binding.rvTiles.addItemDecoration(
+            GridSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.spacing_16))
+        )
         binding.rvTiles.adapter = TileAdapter(tiles)
 
         binding.btnSettings.setOnClickListener {
@@ -105,6 +110,27 @@ class HomeActivity : AppCompatActivity() {
     private fun updateClock() {
         binding.tvClock.text =
             SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+    }
+
+    /** Even 16dp gutters between grid tiles; screen edges are covered by parent padding. */
+    private class GridSpacingItemDecoration(private val spacingPx: Int) :
+        RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val pos = parent.getChildAdapterPosition(view)
+            if (pos == RecyclerView.NO_POSITION) return
+            val spanCount = (parent.layoutManager as? GridLayoutManager)?.spanCount ?: 1
+            val col = pos % spanCount
+            outRect.left = spacingPx * col / spanCount
+            outRect.right = spacingPx - (col + 1) * spacingPx / spanCount
+            outRect.top = if (pos < spanCount) 0 else spacingPx
+            outRect.bottom = 0
+        }
     }
 
     private class TileAdapter(private val tiles: List<Tile>) :

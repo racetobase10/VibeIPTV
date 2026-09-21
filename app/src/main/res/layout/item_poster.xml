@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="6dp"
+    android:padding="@dimen/spacing_8"
     android:focusable="true"
-    android:background="@drawable/item_focusable">
+    android:background="@drawable/card_focusable">
 
-    <ImageView
-        android:id="@+id/imgPoster"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:scaleType="centerCrop"
-        android:background="@drawable/bg_image_placeholder" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgPoster"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg_image_placeholder"
+            android:clipToOutline="true"
+            app:layout_constraintDimensionRatio="2:3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/txtTitle"
+        style="@style/Text.MyTVPlayer.Body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="@dimen/spacing_8"
         android:textColor="@color/text_primary"
-        android:textSize="13sp"
-        android:maxLines="2"
+        android:maxLines="1"
         android:ellipsize="end" />
 
     <TextView
         android:id="@+id/txtRating"
+        style="@style/Text.MyTVPlayer.Caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/text_secondary"
-        android:textSize="11sp" />
+        android:maxLines="1"
+        android:ellipsize="end" />
 </LinearLayout>

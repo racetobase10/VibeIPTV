@@ -3,24 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:layout_marginBottom="@dimen/spacing_8"
+    android:padding="@dimen/spacing_12"
     android:focusable="true"
     android:background="@drawable/item_focusable">
 
     <TextView
         android:id="@+id/txtName"
+        style="@style/Text.MyTVPlayer.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/text_primary"
-        android:textSize="15sp"
         android:maxLines="1"
         android:ellipsize="end" />
 
     <TextView
         android:id="@+id/txtMeta"
+        style="@style/Text.MyTVPlayer.Caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="@dimen/spacing_8"
         android:textColor="@color/text_secondary"
-        android:textSize="12sp" />
+        android:maxLines="1"
+        android:ellipsize="end" />
 </LinearLayout>

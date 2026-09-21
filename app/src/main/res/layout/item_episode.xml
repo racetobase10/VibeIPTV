@@ -2,55 +2,85 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="@dimen/spacing_12"
+    android:layout_margin="@dimen/spacing_8"
     android:focusable="true"
-    android:background="@drawable/item_focusable">
+    android:background="@drawable/card_focusable">
+
+    <ImageView
+        android:id="@+id/imgStill"
+        android:layout_width="112dp"
+        android:layout_height="64dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/bg_image_placeholder"
+        android:clipToOutline="true" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_weight="1"
+        android:layout_marginStart="@dimen/spacing_12"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/txtEpisodeBadge"
+                style="@style/Text.MyTVPlayer.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary"
+                android:background="@drawable/item_focusable"
+                android:paddingStart="@dimen/spacing_8"
+                android:paddingEnd="@dimen/spacing_8"
+                android:paddingTop="@dimen/spacing_8"
+                android:paddingBottom="@dimen/spacing_8"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                style="@style/Text.MyTVPlayer.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/spacing_8"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/txtWatched"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_8"
+                android:text="✓ Watched"
+                android:textColor="@color/watched_badge"
+                android:textSize="@dimen/text_caption"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="0dp"
+            android:id="@+id/txtPlot"
+            style="@style/Text.MyTVPlayer.Body"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/text_primary"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:maxLines="1"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:maxLines="2"
             android:ellipsize="end" />
 
         <TextView
-            android:id="@+id/txtWatched"
-            android:layout_width="wrap_content"
+            android:id="@+id/txtMeta"
+            style="@style/Text.MyTVPlayer.Caption"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="✓ Watched"
-            android:textColor="@color/watched_badge"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:textColor="@color/text_secondary"
+            android:maxLines="1"
+            android:ellipsize="end" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/txtPlot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:textColor="@color/text_secondary"
-        android:textSize="13sp"
-        android:maxLines="2"
-        android:ellipsize="end" />
-
-    <TextView
-        android:id="@+id/txtMeta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:textColor="@color/text_hint"
-        android:textSize="12sp" />
 </LinearLayout>

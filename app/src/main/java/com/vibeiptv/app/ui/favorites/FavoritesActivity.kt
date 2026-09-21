@@ -22,6 +22,7 @@ import com.vibeiptv.app.data.model.VodItem
 import com.vibeiptv.app.data.repo.ContentRepository
 import com.vibeiptv.app.databinding.ActivityFavoritesBinding
 import com.vibeiptv.app.databinding.ItemFavRowBinding
+import com.vibeiptv.app.ui.live.LiveTvActivity
 import com.vibeiptv.app.ui.series.SeriesDetailActivity
 import com.vibeiptv.app.util.Json
 import com.vibeiptv.app.util.PlayerContract
@@ -86,6 +87,9 @@ class FavoritesActivity : AppCompatActivity() {
         binding.tabLive.setOnClickListener { selectTab(0) }
         binding.tabMovies.setOnClickListener { selectTab(1) }
         binding.tabSeries.setOnClickListener { selectTab(2) }
+        binding.btnBrowseLive.setOnClickListener {
+            startActivity(Intent(this, LiveTvActivity::class.java))
+        }
         selectTab(0)
     }
 
@@ -93,7 +97,7 @@ class FavoritesActivity : AppCompatActivity() {
         tab = t
         val tabs: List<Button> = listOf(binding.tabLive, binding.tabMovies, binding.tabSeries)
         tabs.forEachIndexed { i, b ->
-            b.setBackgroundResource(if (i == t) R.drawable.btn_accent_focusable else R.drawable.item_focusable)
+            b.setBackgroundResource(if (i == t) R.drawable.btn_accent_focusable else R.drawable.btn_ghost_focusable)
         }
         loadTab()
     }

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="@dimen/screen_margin">
 
         <Button
             android:id="@+id/tabLive"
@@ -17,8 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Live"
+            android:textAllCaps="false"
             android:focusable="true"
-            android:background="@drawable/item_focusable"
+            android:background="@drawable/btn_accent_focusable"
             android:textColor="@color/text_primary" />
 
         <Button
@@ -26,10 +27,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/spacing_8"
             android:text="Movies"
+            android:textAllCaps="false"
             android:focusable="true"
-            android:background="@drawable/item_focusable"
+            android:background="@drawable/btn_ghost_focusable"
             android:textColor="@color/text_primary" />
 
         <Button
@@ -37,10 +39,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/spacing_8"
             android:text="Series"
+            android:textAllCaps="false"
             android:focusable="true"
-            android:background="@drawable/item_focusable"
+            android:background="@drawable/btn_ghost_focusable"
             android:textColor="@color/text_primary" />
     </LinearLayout>
 
@@ -49,16 +52,52 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="8dp" />
+        android:clipToPadding="false"
+        android:padding="@dimen/spacing_8" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/txtEmpty"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:orientation="vertical"
         android:gravity="center"
-        android:text="No favorites yet"
-        android:textColor="@color/text_secondary"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:padding="@dimen/spacing_24"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="★"
+            android:textSize="48sp"
+            android:textColor="@color/star" />
+
+        <TextView
+            style="@style/Text.MyTVPlayer.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_16"
+            android:text="No favorites yet" />
+
+        <TextView
+            style="@style/Text.MyTVPlayer.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_8"
+            android:gravity="center"
+            android:text="Star channels, movies and series to find them here."
+            android:textColor="@color/text_secondary" />
+
+        <Button
+            android:id="@+id/btnBrowseLive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_24"
+            android:text="Browse Live TV"
+            android:textAllCaps="false"
+            android:focusable="true"
+            android:background="@drawable/btn_accent_focusable"
+            android:textColor="@color/text_primary"
+            android:paddingHorizontal="@dimen/spacing_24" />
+    </LinearLayout>
 </LinearLayout>

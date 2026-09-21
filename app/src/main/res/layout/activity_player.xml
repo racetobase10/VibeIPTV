@@ -18,29 +18,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="#AA0B0F1A"
+        android:background="@drawable/scrim_top_gradient"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/spacing_16">
 
         <TextView
             android:id="@+id/tvTitle"
+            style="@style/Text.MyTVPlayer.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/tvMeta"
+            style="@style/Text.MyTVPlayer.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/spacing_8"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:textColor="@color/text_secondary" />
     </LinearLayout>
 
     <HorizontalScrollView
@@ -48,7 +46,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#AA0B0F1A"
+        android:layout_marginStart="@dimen/spacing_12"
+        android:layout_marginEnd="@dimen/spacing_12"
+        android:layout_marginBottom="@dimen/spacing_16"
         android:fillViewport="true"
         android:scrollbars="none">
 
@@ -57,9 +57,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@drawable/pill_background"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="@dimen/spacing_12">
 
             <Button
                 android:id="@+id/btnPlayPause"

@@ -9,14 +9,14 @@
         android:id="@+id/rvCategories"
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:padding="8dp" />
+        android:padding="@dimen/spacing_8" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="@dimen/spacing_16">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,13 +34,13 @@
                 android:textColorHint="@color/text_hint"
                 android:focusable="true"
                 android:background="@drawable/item_focusable"
-                android:padding="10dp" />
+                android:padding="@dimen/spacing_8" />
 
             <Button
                 android:id="@+id/btnSort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/spacing_8"
                 android:text="Sort"
                 android:focusable="true"
                 android:background="@drawable/item_focusable"
@@ -52,16 +52,17 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="@dimen/spacing_8"
+            android:padding="@dimen/spacing_8"
+            android:clipToPadding="false" />
 
         <TextView
             android:id="@+id/txtEmpty"
+            style="@style/Text.MyTVPlayer.Body"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/text_secondary"
-            android:textSize="16sp"
             android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

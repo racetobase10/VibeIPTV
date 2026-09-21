@@ -10,31 +10,27 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="12dp">
+        android:padding="@dimen/spacing_12">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TV Guide"
-            android:textColor="@color/text_primary"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            style="@style/Text.MyTVPlayer.Headline" />
 
         <TextView
             android:id="@+id/txtDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:layout_marginStart="@dimen/spacing_16"
+            style="@style/Text.MyTVPlayer.Body" />
 
         <TextView
             android:id="@+id/txtPortal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:layout_marginStart="@dimen/spacing_16"
+            style="@style/Text.MyTVPlayer.Body" />
 
         <Space
             android:layout_width="0dp"
@@ -56,8 +52,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp" />
+        android:background="@color/surface"
+        android:paddingStart="@dimen/spacing_8"
+        android:paddingEnd="@dimen/spacing_8"
+        android:paddingTop="@dimen/spacing_8"
+        android:paddingBottom="@dimen/spacing_8" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

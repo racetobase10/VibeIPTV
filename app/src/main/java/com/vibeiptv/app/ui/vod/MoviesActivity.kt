@@ -2,6 +2,7 @@ package com.vibeiptv.app.ui.vod
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -44,6 +45,17 @@ class MoviesActivity : AppCompatActivity() {
 
     private lateinit var posterAdapter: PosterAdapter
 
+    /** Uniform 16dp gaps between poster cards: half-spacing item offsets pair
+     * with the matching 8dp grid padding in the layout. Styling only. */
+    private inner class GridSpacingDecoration : RecyclerView.ItemDecoration() {
+        private val half = resources.getDimensionPixelSize(R.dimen.spacing_16) / 2
+        override fun getItemOffsets(
+            outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
+        ) {
+            outRect.set(half, half, half, half)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMoviesBinding.inflate(layoutInflater)
@@ -55,6 +67,7 @@ class MoviesActivity : AppCompatActivity() {
         binding.rvCategories.layoutManager = LinearLayoutManager(this)
         posterAdapter = PosterAdapter { vod -> openDetail(vod) }
         binding.rvGrid.layoutManager = GridLayoutManager(this, 3)
+        binding.rvGrid.addItemDecoration(GridSpacingDecoration())
         binding.rvGrid.adapter = posterAdapter
 
         binding.etSearch.addTextChangedListener(object : TextWatcher {
@@ -195,7 +208,11 @@ class MoviesActivity : AppCompatActivity() {
         override fun onBindViewHolder(h: VH, pos: Int) {
             val vod = items[pos]
             h.b.txtTitle.text = vod.name
-            h.b.txtRating.text = if (vod.rating > 0) "★ %.1f".format(vod.rating) else ""
+            // Year + rating with an honest source label (Xtream provider ratings are TMDB).
+            h.b.txtRating.text = listOfNotNull(
+                vod.year?.takeIf { it.isNotBlank() },
+                if (vod.rating > 0) "★ TMDB %.1f".format(vod.rating) else null
+            ).joinToString(" • ")
             if (!vod.poster.isNullOrBlank()) {
                 h.b.imgPoster.load(vod.poster) {
                     crossfade(true)

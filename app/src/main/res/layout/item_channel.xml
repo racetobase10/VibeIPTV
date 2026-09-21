@@ -2,34 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
+    android:layout_marginBottom="@dimen/spacing_8"
     android:background="@drawable/item_focusable"
     android:focusable="true"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="@dimen/spacing_12">
 
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="64dp"
-        android:layout_height="40dp"
-        android:contentDescription="Channel logo"
-        android:scaleType="fitCenter" />
+    <FrameLayout
+        android:layout_width="88dp"
+        android:layout_height="50dp"
+        android:background="@drawable/card_focusable">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/spacing_8"
+            android:contentDescription="Channel logo"
+            android:scaleType="fitCenter" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tvNumber"
         android:layout_width="52dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_8"
         android:gravity="center"
-        android:textColor="@color/text_secondary"
-        android:textSize="15sp"
+        style="@style/Text.MyTVPlayer.Body"
         android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="@dimen/spacing_8">
 
         <TextView
             android:id="@+id/tvName"
@@ -37,18 +45,15 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/text_primary"
-            android:textSize="16sp"
+            style="@style/Text.MyTVPlayer.Title"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvEpg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/text_secondary"
-            android:textSize="13sp" />
+            style="@style/Text.MyTVPlayer.Caption" />
     </LinearLayout>
 </LinearLayout>

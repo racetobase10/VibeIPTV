@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg">#0B0F1A</color>
-    <color name="surface">#151C2E</color>
-    <color name="surface2">#1C2540</color>
-    <color name="divider">#232C44</color>
-    <color name="accent">#E63946</color>
-    <color name="accent_dark">#B91F2C</color>
+    <!-- v1.2 design tokens: near-black charcoal + bright blue accent -->
+    <color name="bg">#101014</color>
+    <color name="surface">#1B1B22</color>
+    <color name="surface2">#26262F</color>
+    <color name="divider">#2C2C38</color>
+    <color name="accent">#2E9BFF</color>
+    <color name="accent_dark">#1B7FE0</color>
     <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#9AA3B2</color>
-    <color name="text_hint">#5C6678</color>
-    <color name="focus_ring">#FFFFFF</color>
-    <color name="now_line">#E63946</color>
+    <color name="text_secondary">#B3B3B3</color>
+    <color name="text_hint">#7A7A85</color>
+    <color name="focus_ring">#2E9BFF</color>
+    <color name="focus_ring_on_accent">#FFFFFF</color>
+    <color name="now_line">#2E9BFF</color>
     <color name="live_badge">#E63946</color>
     <color name="watched_badge">#2E7D32</color>
+    <color name="star">#FFC107</color>
+    <color name="success">#34C759</color>
+    <color name="scrim">#99000000</color>
 </resources>

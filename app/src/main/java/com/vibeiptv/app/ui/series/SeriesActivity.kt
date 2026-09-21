@@ -2,6 +2,7 @@ package com.vibeiptv.app.ui.series
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -44,6 +45,17 @@ class SeriesActivity : AppCompatActivity() {
 
     private lateinit var posterAdapter: CoverAdapter
 
+    /** Uniform 16dp gaps between poster cards: half-spacing item offsets pair
+     * with the matching 8dp grid padding in the layout. Styling only. */
+    private inner class GridSpacingDecoration : RecyclerView.ItemDecoration() {
+        private val half = resources.getDimensionPixelSize(R.dimen.spacing_16) / 2
+        override fun getItemOffsets(
+            outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
+        ) {
+            outRect.set(half, half, half, half)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySeriesBinding.inflate(layoutInflater)
@@ -55,6 +67,7 @@ class SeriesActivity : AppCompatActivity() {
         binding.rvCategories.layoutManager = LinearLayoutManager(this)
         posterAdapter = CoverAdapter { s -> openDetail(s) }
         binding.rvGrid.layoutManager = GridLayoutManager(this, 3)
+        binding.rvGrid.addItemDecoration(GridSpacingDecoration())
         binding.rvGrid.adapter = posterAdapter
 
         binding.etSearch.addTextChangedListener(object : TextWatcher {
@@ -194,7 +207,11 @@ class SeriesActivity : AppCompatActivity() {
         override fun onBindViewHolder(h: VH, pos: Int) {
             val s = items[pos]
             h.b.txtTitle.text = s.name
-            h.b.txtRating.text = if (s.rating > 0) "★ %.1f".format(s.rating) else ""
+            // Year + rating with an honest source label (Xtream provider ratings are TMDB).
+            h.b.txtRating.text = listOfNotNull(
+                s.releaseDate?.takeIf { it.isNotBlank() },
+                if (s.rating > 0) "★ TMDB %.1f".format(s.rating) else null
+            ).joinToString(" • ")
             if (!s.cover.isNullOrBlank()) {
                 h.b.imgPoster.load(s.cover) {
                     crossfade(true)
